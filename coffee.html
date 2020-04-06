@@ -3,24 +3,19 @@
 <head>
   <title>Hackbright Coffee Shop</title>
 
-  <!-- Bootstrap links -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-  <!-- Google fonts link -->
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway" >
-  <!-- Our CSS -->
-  <link rel="stylesheet" href="static/coffee.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <link href="static/coffee.css" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 </head>
 <body>
   <div class="container">
     <div class="starter-template">
       <h1>Coffee Shop</h1>
 
-      <img
-        id="coffee-image"
-        alt="make this image work with js"
-        height="300"
-        width="200">
+      <img id="coffee-image" src="LOLWUT" height="300" width="200">
 
       <h3 id="message">Click The Image To Order Coffee</h3>
 
@@ -39,9 +34,9 @@
           </td>
         </tr>
         <tr>
-          <td>$3.25</td>
-          <td>$4.15</td>
-          <td>$2.50</td>
+            <td>$3.25</td>
+            <td>$4.15</td>
+            <td>$2.50</td>
         </tr>
       </table>
 
@@ -53,14 +48,48 @@
 
   <script>
 
-    // Set these variables to their DOM elements
-
     const coffeeImage = document.querySelector('#coffee-image');
-    coffeeImage.setAttribute('src', 'static/coffee_beans.jpg');
+    const revenueMessage = document.querySelector('#revenue');
 
-    // const revenueMessage
+    const drinksOrdered = [];
 
-    // use this JavaScript object in further study step
+    coffeeImage.src = 'static/coffee_beans.jpg';
+    coffeeImage.addEventListener('click', () => makeCoffee("brew"));
+
+    // Append the drinkType to drinksOrdered and use console.log to view the
+    // output
+
+    function makeCoffee(drinkType) {
+      drinksOrdered.push(drinkType);
+      console.log(drinksOrdered);
+
+      const revenue = getRevenue();
+      revenueMessage.innerHTML = `Today's revenues: ${revenue}`;
+
+      coffeeImage.src = 'static/coffee_machine.jpg';
+
+      setTimeout(() => {
+        coffeeImage.setAttribute('src', 'static/coffee_mug.jpg');
+      }, 1500);
+
+      setTimeout(() => {
+        coffeeImage.setAttribute('src', "static/coffee_beans.jpg");
+      }, 4000);
+    }
+
+
+    // Create variables for Espresso, Latte, and Hot Chocolate;
+    // and add an event listener to each that calls makeCoffee
+    const espresso = document.querySelector('#espresso');
+    const latte = document.querySelector('#latte');
+    const hotChocolate = document.querySelector('#hot-chocolate');
+
+    // Using arrow functions instead of anynymous functions used above:
+    espresso.addEventListener('click', () => makeCoffee('espresso'));
+    latte.addEventListener('click', () => makeCoffee('latte'));
+    hotChocolate.addEventListener('click', () => makeCoffee('hot chocolate'));
+
+    // Use this to calculate profits for the day and log them to the console.
 
     const prices = {
       'brew': 2.05,
@@ -69,11 +98,21 @@
       'hot chocolate': 2.50
     };
 
-  const makeCoffee = document.querySelector('#coffee-image');
+    function getRevenue() {
+      // Set total to the sum of all drinks ordered
+      const total = drinksOrdered.reduce((total, drinkOrdered) => {
+        return total += prices[drinkOrdered];
+      });
 
-  makeCoffee.addEventListener('click', (evt) => {
-    coffeeImage.setAttribute('src', 'static/coffee_mug.jpg');
-  });
+      // Shortcut to:
+      // let total = 0;
+      // for (let drinkOrdered of drinksOrdered) {
+      //   total += prices[drinkOrdered];
+      // }
+
+      console.log(`Total revenue: ${total}`);
+      return total;
+    }
 
   </script>
 
